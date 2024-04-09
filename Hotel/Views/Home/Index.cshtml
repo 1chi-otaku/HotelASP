@@ -3,76 +3,68 @@
 }
 
 <style>
-    /* Стили для каждого сообщения */
     ul li {
         background-color: #f5f5f5;
         border: 1px solid #999;
         margin-bottom: 10px;
         padding: 10px;
         border-radius: 5px;
-        min-width: 200px; /* Минимальная ширина */
-        display: block; /* Располагаем блоки друг под другом */
+        min-width: 200px;
+        display: grid;
+        max-height: auto;
     }
 
-        /* Стили для имени пользователя */
         ul li strong {
-            color: #789922; /* Зеленый цвет */
+            color: #789922;
             font-weight: bold;
         }
 
-        /* Стили для даты сообщения */
+
         ul li span.date {
-            color: #999; /* Серый цвет */
+            color: #999;
             font-size: 12px;
         }
 
-        /* Стили для номера сообщения */
         ul li span.number {
-            color: #999; /* Серый цвет */
+            color: #999;
             font-size: 12px;
             font-style: italic;
         }
 
-        /* Стили для текста сообщения */
         ul li p {
             margin: 5px 0;
         }
 
-    /* Стили для выравнивания контента по левому краю */
     ul li {
         text-align: left;
     }
-
-
-
 </style>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-
-    <h1>Messages</h1>
-
     <ul>
         @if (ViewBag.Messages != null)
         {
-            <h2>Сообщения</h2>
-            <ul>
-                @foreach (var message in ViewBag.Messages)
-                {
-                    <li>
-                        <strong>@message.User.Name</strong> <span class="date">@message.MessageDate.ToString("dd/MM/yyyy (ddd) HH:mm:ss")</span> No. <span class="number">X</span><br>
+            var counter = 1;
+            foreach (var message in ViewBag.Messages)
+            {
+                <li>
+                    <span>
+                        <strong style="color: @(message.User.Login == "admin" ? "purple" : "#789922");">@message.User.Name</strong>
+                        @message.MessageDate.ToString("dd/MM/yyyy (ddd) HH:mm:ss")
+                        No. <span class="number">@counter</span><br>
                         <p>@message.Message</p>
-                    </li>
-                }
-            </ul>
+                    </span>
+                </li>
+                counter++;
+            }
         }
     </ul>
     @if (Context.Session.GetString("name") != null)
     {
         <form id="messageForm" method="post" action="@Url.Action("AddMessage", "Home")">
             <div>
-                <textarea id="message" name="message" class="form-control" rows="3" placeholder="Введите сообщение"></textarea>
-                <button type="submit" class="btn btn-primary mt-2">Добавить сообщение</button>
+                <textarea id="message" name="message" class="form-control" rows="3" placeholder="Enter Message" maxlength="120" required></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Comment</button>
             </div>
         </form>
     }
