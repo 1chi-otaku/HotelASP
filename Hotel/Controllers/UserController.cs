@@ -39,5 +39,50 @@ namespace Hotel.Controllers
 
             return View(reg);
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(LoginModel logon)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_db.Users.ToList().Count == 0)
+                {
+                    ModelState.AddModelError("", "Wrong login or password!");
+                    return View(logon);
+                }
+                var users = _db.Users.Where(a => a.Login == logon.Login);
+                if (users.ToList().Count == 0)
+                {
+                    ModelState.AddModelError("", "Wrong login or password!");
+                    return View(logon);
+                }
+
+
+                var user = users.First();
+
+
+
+                if (user.Password != logon.Password)
+                {
+                    ModelState.AddModelError("", "Wrong login or password!");
+                    return View(logon);
+                }
+                HttpContext.Session.SetString("login", user.Login);
+                return RedirectToAction("Index", "Home");
+            }
+            return View(logon);
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

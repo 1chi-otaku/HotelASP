@@ -15,7 +15,26 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                @if (Context.Session.GetString("login") != null)
+                {
+                    <p>Welcome, @Context.Session.GetString("login") </p>
+                    @using (Html.BeginForm("Logout", "User", FormMethod.Get))
+                    {
+                        <div>
+                            <input type="submit" value="Log Out" />
+                        </div>
+                    }
+                }
+                else{
+                    <div>
+
+                    <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+                    
+                    </div>
+                }
+               
+
             </div>
         </nav>
     </header>
