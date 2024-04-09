@@ -19,6 +19,15 @@ namespace Hotel.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult AddMessage(string message)
+        {
+            
+
+            return RedirectToAction("Index"); 
+        }
+
+
     }
 
 }
