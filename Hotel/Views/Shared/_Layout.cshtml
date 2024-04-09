@@ -15,9 +15,9 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                @if (Context.Session.GetString("login") != null)
+                @if (Context.Session.GetString("name") != null)
                 {
-                    <p>Welcome, @Context.Session.GetString("login") </p>
+                    <p>Welcome, @Context.Session.GetString("name") </p>
                     @using (Html.BeginForm("Logout", "User", FormMethod.Get))
                     {
                         <div>

@@ -8,7 +8,16 @@ namespace Hotel.Models
         public HotelContext(DbContextOptions<HotelContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            if (Database.EnsureCreated())
+            {
+
+                Users.Add(
+                    new Users { Name = "Administrator", Login = "admin", Password = "admin" }
+
+                ) ;
+
+                SaveChanges();
+            }
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Messages> Messages { get; set; }

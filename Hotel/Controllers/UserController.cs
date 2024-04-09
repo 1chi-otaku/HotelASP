@@ -24,9 +24,16 @@ namespace Hotel.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterModel reg)
         {
+
+            if (CheckLogin(reg.Login)) ModelState.AddModelError("", "User with such login already exists!.");
+            if(reg.Name == reg.Login) ModelState.AddModelError("", "Login and Name can NOT be the same!");
+
+
             if (ModelState.IsValid)
             {
+
                 HttpContext.Session.SetString("login", reg.Login);
+                HttpContext.Session.SetString("name", reg.Name);
                 Users user = new Users();
                 user.Name = reg.Name;
                 user.Login = reg.Login;
@@ -74,6 +81,7 @@ namespace Hotel.Controllers
                     return View(logon);
                 }
                 HttpContext.Session.SetString("login", user.Login);
+                HttpContext.Session.SetString("name", user.Name);
                 return RedirectToAction("Index", "Home");
             }
             return View(logon);
@@ -83,6 +91,12 @@ namespace Hotel.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+
+
+        private bool CheckLogin(string login)
+        {
+            return _db.Users.Any(user => user.Login == login);
         }
     }
 }
