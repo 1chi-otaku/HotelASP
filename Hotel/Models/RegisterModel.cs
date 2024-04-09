@@ -2,10 +2,8 @@
 
 namespace Hotel.Models
 {
-    public class Users
+    public class RegisterModel
     {
-        public int Id { get; set; }
-
         [Required]
         public string? Name { get; set; }
 
@@ -13,7 +11,12 @@ namespace Hotel.Models
         public string? Login { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string? Password { get; set; }
-     
+
+        [Required]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [DataType(DataType.Password)]
+        public string? PasswordConfirm { get; set; }
     }
 }
