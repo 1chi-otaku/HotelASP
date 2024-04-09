@@ -3,8 +3,12 @@
 }
 
 <style>
+
+    body{
+        background-color: #EEF2FF;
+    }
     ul li {
-        background-color: #f5f5f5;
+        background-color: #D6DAF0;
         border: 1px solid #999;
         margin-bottom: 10px;
         padding: 10px;
@@ -13,6 +17,10 @@
         display: grid;
         max-height: auto;
     }
+
+        ul li:nth-child(even) {
+            background-color: #dfe2f2;
+        }
 
         ul li strong {
             color: #789922;
@@ -49,7 +57,8 @@
             {
                 <li>
                     <span>
-                        <strong style="color: @(message.User.Login == "admin" ? "purple" : "#789922");">@message.User.Name</strong>
+                        <strong style="color: @(message.User.Login == "admin" ? "purple" : "#789922"); font-weight: @(message.User.Login == Context.Session.GetString("login") ? "900" : "600");">@message.User.Name</strong>
+
                         @message.MessageDate.ToString("dd/MM/yyyy (ddd) HH:mm:ss")
                         No. <span class="number">@counter</span><br>
                         <p>@message.Message</p>
