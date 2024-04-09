@@ -7,11 +7,20 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 
 builder.Services.AddDbContext<HotelContext>(options => options.UseSqlServer(connection));
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.Name = "Session"; 
+
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-app.UseStaticFiles(); 
+app.UseStaticFiles();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

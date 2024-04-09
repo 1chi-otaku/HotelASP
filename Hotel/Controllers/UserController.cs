@@ -20,23 +20,24 @@ namespace Hotel.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Register(RegisterModel reg)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        Users user = new Users();
-        //        user.Name = reg.Name;
-        //        user.Login = reg.Login;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(RegisterModel reg)
+        {
+            if (ModelState.IsValid)
+            {
+                HttpContext.Session.SetString("login", reg.Login);
+                Users user = new Users();
+                user.Name = reg.Name;
+                user.Login = reg.Login;
 
-        //        user.Password = reg.Password;
-        //        _db.Users.Add(user);
-        //        _db.SaveChanges();
-        //        return RedirectToAction("Login");
-        //    }
+                user.Password = reg.Password;
+                _db.Users.Add(user);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    return View(reg);
-        //}
+            return View(reg);
+        }
     }
 }
