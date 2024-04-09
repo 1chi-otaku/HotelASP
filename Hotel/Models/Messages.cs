@@ -2,7 +2,9 @@
 {
     public class Messages
     {
+
         public int Id { get; set; }
+
         public int Id_User { get; set; }
         public Users? User { get; set; }
 

@@ -16,8 +16,10 @@ namespace Hotel.Controllers
             _db = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var soccerContext = _db.Messages.Include(p => p.User);
+            ViewBag.Messages = soccerContext;
             return View();
         }
 
@@ -30,9 +32,9 @@ namespace Hotel.Controllers
                 Users user = _db.Users.FirstOrDefault(u => u.Login == login);
                 Messages newMessage = new Messages
                 {
-                    Id_User = user.Id,
                     Message = message,
                     MessageDate = DateTime.Now,
+                    Id_User = user.Id,
                     User = user
                 };
 

@@ -4,6 +4,11 @@ namespace Hotel.Models
 {
     public class Users
     {
+        public Users()
+        {
+            this.Messages = new HashSet<Messages>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -14,6 +19,8 @@ namespace Hotel.Models
 
         [Required]
         public string? Password { get; set; }
-     
+
+        public ICollection<Messages>? Messages { get; set; }
+
     }
 }

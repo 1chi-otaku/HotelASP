@@ -2,8 +2,71 @@
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    /* Стили для каждого сообщения */
+    ul li {
+        background-color: #f5f5f5;
+        border: 1px solid #999;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        min-width: 200px; /* Минимальная ширина */
+        display: block; /* Располагаем блоки друг под другом */
+    }
+
+        /* Стили для имени пользователя */
+        ul li strong {
+            color: #789922; /* Зеленый цвет */
+            font-weight: bold;
+        }
+
+        /* Стили для даты сообщения */
+        ul li span.date {
+            color: #999; /* Серый цвет */
+            font-size: 12px;
+        }
+
+        /* Стили для номера сообщения */
+        ul li span.number {
+            color: #999; /* Серый цвет */
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        /* Стили для текста сообщения */
+        ul li p {
+            margin: 5px 0;
+        }
+
+    /* Стили для выравнивания контента по левому краю */
+    ul li {
+        text-align: left;
+    }
+
+
+
+</style>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+
+    <h1>Messages</h1>
+
+    <ul>
+        @if (ViewBag.Messages != null)
+        {
+            <h2>Сообщения</h2>
+            <ul>
+                @foreach (var message in ViewBag.Messages)
+                {
+                    <li>
+                        <strong>@message.User.Name</strong> <span class="date">@message.MessageDate.ToString("dd/MM/yyyy (ddd) HH:mm:ss")</span> No. <span class="number">X</span><br>
+                        <p>@message.Message</p>
+                    </li>
+                }
+            </ul>
+        }
+    </ul>
     @if (Context.Session.GetString("name") != null)
     {
         <form id="messageForm" method="post" action="@Url.Action("AddMessage", "Home")">
