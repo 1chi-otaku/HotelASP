@@ -73,6 +73,40 @@
         }
 </style>
 
+@section Scripts{
+    <script>
+    $(document).ready(function () {
+
+        GetMessages();
+
+        function GetMessages() {
+            $.ajax({
+                url: '@Url.Action("GetMessages", "Home")',
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    let rows = "";
+                    let students = JSON.parse(response);
+                    $.each(students, function (index, student) {
+                        rows += row(student);
+                    })
+                    $("#student-list").html(rows);
+                },
+                error: function (jqXHR, statusText, error) {
+                    console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                }
+            });
+        }
+
+       
+    });
+</script>
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
+
 <div class="hotelDiv">
     <img src="https://media.istockphoto.com/id/119926339/photo/resort-swimming-pool.jpg?s=612x612&w=0&k=20&c=9QtwJC2boq3GFHaeDsKytF4-CavYKQuy1jBD2IRfYKc=" alt="Изображение отеля" />
     <div>

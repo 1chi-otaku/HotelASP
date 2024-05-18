@@ -1,6 +1,7 @@
 using Hotel.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 
 namespace Hotel.Controllers
@@ -12,6 +13,8 @@ namespace Hotel.Controllers
         public HomeController(HotelContext context)
         {
             _db = context;
+            
+            
         }
 
         public async Task<IActionResult> Index()
@@ -19,6 +22,21 @@ namespace Hotel.Controllers
             var soccerContext = _db.Messages.Include(p => p.User);
             ViewBag.Messages = soccerContext;
             return View();
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetMessages()
+        {
+            var messages = await _db.Messages
+                .Include(m => m.User)
+                .ToListAsync();
+
+            if (!messages.Any())
+                return Problem("No messages");
+            
+            var response = Json(messages);
+            
+            return response;
         }
         
         //test2
