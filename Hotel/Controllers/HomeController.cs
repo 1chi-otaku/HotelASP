@@ -47,6 +47,29 @@ namespace Hotel.Controllers
                 return Problem("Error serializing messages: " + ex.Message);
             }
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> InsertMessage(Messages message)
+        {
+            if (ModelState.IsValid)
+            {
+                string login = HttpContext.Session.GetString("login");
+                Users user = _db.Users.FirstOrDefault(u => u.Login == login);
+                Messages newMessage = new Messages
+                {
+                    Message = message.Message,
+                    MessageDate = DateTime.Now,
+                    Id_User = user.Id,
+                    User = user
+                };
+                _db.Messages.Add(newMessage);
+                
+                await _db.SaveChangesAsync();
+                string? response = message.Message;
+                return Json(response);
+            }
+            return Problem("Something went wrong");
+        }
 
         
         //test2

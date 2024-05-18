@@ -127,10 +127,35 @@
                 }
             });
         }
+        
+        $("#btn-insert-message").on("click", function () {
+            let formData = new FormData();
+            var login = '@Context.Session.GetString("login")';
+            formData.append("message.Message", $("#message").val());
+            formData.append("login", login);
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("InsertMessage", "Home")',
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (response) {
+                    resetForm();
+                    GetMessages();
+                },
+                error: function (jqXHR, statusText, error) {
+                    console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                }
+            });
+        });
 
-       
+        function resetForm() {
+            $("#message").val("");
+        }
 
-       
+
+
+
     });
 </script>
     @{
@@ -156,7 +181,8 @@
         <form id="messageForm" method="post" action="@Url.Action("AddMessage", "Home")">
             <div>
                 <textarea id="message" name="message" class="form-control" rows="3" placeholder="Enter Message" maxlength="120" required></textarea>
-                <button type="submit" class="btn btn-primary mt-2">Comment</button>
+              
+                <a href="javascript:void(0)" class="btn btn-primary  mt-2" id="btn-insert-message">Comment</a>
             </div>
         </form>
     }
