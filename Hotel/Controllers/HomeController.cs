@@ -20,6 +20,8 @@ namespace Hotel.Controllers
             ViewBag.Messages = soccerContext;
             return View();
         }
+        
+        //test
 
         [HttpPost]
         public IActionResult AddMessage(string message)
