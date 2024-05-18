@@ -1,9 +1,7 @@
 using Hotel.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+
 
 namespace Hotel.Controllers
 {
@@ -37,6 +35,7 @@ namespace Hotel.Controllers
                     Id_User = user.Id,
                     User = user
                 };
+                Console.WriteLine();
 
                 _db.Messages.Add(newMessage);
                 _db.SaveChanges();
