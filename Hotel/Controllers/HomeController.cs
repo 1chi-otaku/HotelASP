@@ -21,7 +21,7 @@ namespace Hotel.Controllers
             return View();
         }
         
-        //test
+        //test2
 
         [HttpPost]
         public IActionResult AddMessage(string message)
