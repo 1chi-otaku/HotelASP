@@ -27,17 +27,27 @@ namespace Hotel.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMessages()
         {
+            if (_db.Messages == null)
+                return Problem("No messages");
+
             var messages = await _db.Messages
                 .Include(m => m.User)
                 .ToListAsync();
 
-            if (!messages.Any())
-                return Problem("No messages");
-            
-            var response = Json(messages);
-            
-            return response;
+            try
+            {
+                string response = JsonConvert.SerializeObject(messages, new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                return Problem("Error serializing messages: " + ex.Message);
+            }
         }
+
         
         //test2
 
